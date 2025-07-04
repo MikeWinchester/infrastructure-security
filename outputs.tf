@@ -20,7 +20,7 @@ output "network_security_group_id" {
 }
 
 output "service_principal_client_id" {
-  value       = azuread_service_principal.ecommerce_sp.application_id
+  value       = azuread_service_principal.ecommerce_sp.client_id
   description = "Client ID of the service principal"
   sensitive   = true
 }

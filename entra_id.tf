@@ -3,14 +3,12 @@ resource "azuread_group" "admin" {
   display_name     = var.admin_group_name
   security_enabled = true
   mail_enabled     = false
-  types            = ["Security"]
 }
 
 resource "azuread_group" "user" {
   display_name     = var.user_group_name
   security_enabled = true
   mail_enabled     = false
-  types            = ["Security"]
 }
 
 # Azure AD Application Registration for e-commerce

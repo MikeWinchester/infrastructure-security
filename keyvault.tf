@@ -1,6 +1,5 @@
 resource "azurerm_key_vault" "main" {
-  name                        = "kv-${var.project}-${var.environment}"
-  location                    = azurerm_resource_group.rg.location
+  name = "kv-${var.project}-${var.environment}-${substr(lower(replace(data.azurerm_client_config.current.subscription_id, "-", "")), 0, 8)}"  location                    = azurerm_resource_group.rg.location
   resource_group_name         = azurerm_resource_group.rg.name
   enabled_for_disk_encryption = true
   tenant_id                   = data.azurerm_client_config.current.tenant_id

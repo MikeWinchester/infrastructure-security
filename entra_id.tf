@@ -1,44 +1,40 @@
 # Azure AD Groups
-resource "azurerm_ad_group" "admin" {
+resource "azuread_group" "admin" {
   display_name     = var.admin_group_name
   security_enabled = true
+  mail_enabled     = false
+  types            = ["Security"]
 }
 
-resource "azurerm_ad_group" "user" {
+resource "azuread_group" "user" {
   display_name     = var.user_group_name
   security_enabled = true
+  mail_enabled     = false
+  types            = ["Security"]
 }
 
 # Azure AD Application Registration for e-commerce
-resource "azurerm_ad_application" "ecommerce_app" {
+resource "azuread_application" "ecommerce_app" {
   display_name = "${var.project}-${var.environment}-app"
   owners       = [data.azurerm_client_config.current.object_id]
+
+  required_resource_access {
+    resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
+
+    resource_access {
+      id   = "e1fe6dd8-ba31-4d61-89e7-88639da4683d" # User.Read
+      type = "Scope"
+    }
+  }
 }
 
 # Azure AD Service Principal for the application
-resource "azurerm_ad_service_principal" "ecommerce_sp" {
-  application_id = azurerm_ad_application.ecommerce_app.application_id
+resource "azuread_service_principal" "ecommerce_sp" {
+  application_id = azuread_application.ecommerce_app.application_id
+  app_role_assignment_required = false
 }
 
-# Conditional Access Policy (example)
-resource "azurerm_ad_conditional_access_policy" "mfa_policy" {
-  display_name = "Require MFA for Admin Access"
-  state        = "enabled"
-
-  conditions {
-    applications {
-      included_applications = ["All"]
-    }
-
-    users {
-      included_users = ["All"]
-    }
-  }
-
-  grant_controls {
-    operator          = "OR"
-    built_in_controls = ["mfa"]
-  }
+# Password para el Service Principal
+resource "azuread_service_principal_password" "ecommerce_sp_password" {
+  service_principal_id = azuread_service_principal.ecommerce_sp.object_id
 }
-
-data "azurerm_client_config" "current" {}

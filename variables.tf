@@ -1,6 +1,6 @@
 variable "subscription_id" {
   type        = string
-  description = "The Azure subscription ID"
+  description = "The Azure subscription id"
 }
 
 variable "location" {
@@ -23,11 +23,11 @@ variable "environment" {
 
 variable "tags" {
   type        = map(string)
-  description = "Map of tags"
+  description = "maps of tags"
   default = {
     "environment" = "development"
-    "date"       = "july-2025"
-    "createdby"  = "terraform"
+    date = "july-2025"
+    createdby = "terraform"
   }
 }
 
@@ -46,4 +46,10 @@ variable "user_group_name" {
   type        = string
   description = "Name for the user security group"
   default     = "Ecommerce-Users"
+}
+
+variable "key_vault_sku" {
+  type        = string
+  description = "SKU for Key Vault"
+  default     = "standard"
 }

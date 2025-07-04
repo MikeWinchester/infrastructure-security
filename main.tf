@@ -13,6 +13,9 @@ provider "azurerm" {
       purge_soft_delete_on_destroy    = true
       recover_soft_deleted_key_vaults = true
     }
+    network {
+      prevent_creation_of_network_watcher = false 
+    }
   }
   subscription_id = var.subscription_id
 }

@@ -41,3 +41,9 @@ variable "admin_username" {
   description = "Admin username for resources"
   default     = "adminuser"
 }
+
+variable "domain_name" {
+  type = string
+  description = "The domain name"
+  
+}

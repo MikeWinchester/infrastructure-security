@@ -1,11 +1,11 @@
 variable "subscription_id" {
   type        = string
-  description = "The Azure subscription ID"
+  description = "The azure subscription id"
 }
 
 variable "location" {
   type        = string
-  description = "The Azure region to deploy"
+  description = "The azure region to deploy"
   default     = "Central US"
 }
 
@@ -23,27 +23,55 @@ variable "environment" {
 
 variable "tags" {
   type        = map(string)
-  description = "Map of tags"
+  description = "maps of tags"
   default = {
     "environment" = "development"
-    "createdby"   = "terraform"
+    date          = "july-2025"
+    createdby     = "terraform"
+    module        = "security"
   }
 }
 
 variable "allowed_ips" {
   type        = list(string)
-  description = "List of allowed IP addresses for admin access"
-  default     = ["192.168.1.1/32"] # Reemplaza con tus IPs reales
+  description = "List of allowed IPs for Key Vault access"
+  default     = []
 }
 
-variable "admin_username" {
+variable "ssl_certificate_name" {
   type        = string
-  description = "Admin username for resources"
-  default     = "adminuser"
+  description = "Name for SSL certificate"
+  default     = "ecommerce-ssl-cert"
 }
 
-variable "domain_name" {
-  type = string
-  description = "The domain name"
-  
+variable "custom_domain" {
+  type        = string
+  description = "Custom domain for the application"
+  default     = ""
+}
+
+variable "key_vault_sku" {
+  type        = string
+  description = "SKU for Key Vault"
+  default     = "standard"
+  validation {
+    condition     = contains(["standard", "premium"], var.key_vault_sku)
+    error_message = "Key Vault SKU must be 'standard' or 'premium'."
+  }
+}
+
+variable "network_security_rules" {
+  type = list(object({
+    name                       = string
+    priority                   = number
+    direction                  = string
+    access                     = string
+    protocol                   = string
+    source_port_range          = string
+    destination_port_range     = string
+    source_address_prefix      = string
+    destination_address_prefix = string
+  }))
+  description = "List of network security rules"
+  default = []
 }

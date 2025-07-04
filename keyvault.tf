@@ -3,7 +3,7 @@
 #-------------------------------#
 
 resource "azurerm_key_vault" "main" {
-  name                = "kv-${var.project}-${var.environment}"
+  name                = "kv-${var.project}-$-security"
   location            = azurerm_resource_group.rg_security.location
   resource_group_name = azurerm_resource_group.rg_security.name
   tenant_id           = data.azurerm_client_config.current.tenant_id

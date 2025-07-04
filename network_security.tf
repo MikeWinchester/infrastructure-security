@@ -18,6 +18,9 @@ resource "azurerm_subnet" "web" {
   resource_group_name  = azurerm_resource_group.rg_security.name
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = ["10.0.1.0/24"]
+  
+  # AGREGADO: Service Endpoints para Microsoft.Storage
+  service_endpoints = ["Microsoft.Storage"]
 }
 
 # Subnet para bases de datos
@@ -26,6 +29,9 @@ resource "azurerm_subnet" "data" {
   resource_group_name  = azurerm_resource_group.rg_security.name
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = ["10.0.2.0/24"]
+  
+  # AGREGADO: Service Endpoints para Microsoft.Storage
+  service_endpoints = ["Microsoft.Storage"]
 }
 
 # Network Security Group para aplicaciones web

@@ -6,7 +6,7 @@ resource "azurerm_key_vault" "main" {
   tenant_id                   = data.azurerm_client_config.current.tenant_id
   soft_delete_retention_days  = 7
   purge_protection_enabled    = false
-  sku_name                    = var.key_vault_sku
+  sku_name                    = "standard"
 
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
@@ -19,33 +19,25 @@ resource "azurerm_key_vault" "main" {
     secret_permissions = [
       "Get", "List", "Set", "Delete", "Recover", "Backup", "Restore"
     ]
-
-    storage_permissions = [
-      "Get", "List", "Set", "Delete", "Recover", "Backup", "Restore"
-    ]
   }
 
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = azuread_service_principal.ecommerce_sp.object_id
-
-    secret_permissions = [
-      "Get", "List"
-    ]
+  network_acls {
+    default_action = "Deny"
+    bypass         = "AzureServices"
+    ip_rules       = var.allowed_ips
   }
 
   tags = var.tags
 }
 
-# Example secrets
-resource "azurerm_key_vault_secret" "db_connection_string" {
-  name         = "db-connection-string"
-  value        = "example-connection-string" # In production, use sensitive variables
+resource "azurerm_key_vault_secret" "admin_password" {
+  name         = "admin-password"
+  value        = random_password.admin.result
   key_vault_id = azurerm_key_vault.main.id
 }
 
-resource "azurerm_key_vault_secret" "api_key" {
-  name         = "api-key"
-  value        = "example-api-key" # In production, use sensitive variables
-  key_vault_id = azurerm_key_vault.main.id
+resource "random_password" "admin" {
+  length           = 16
+  special          = true
+  override_special = "!@#$%&*()-_=+[]{}<>:?"
 }

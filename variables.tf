@@ -1,6 +1,6 @@
 variable "subscription_id" {
   type        = string
-  description = "The Azure subscription id"
+  description = "The Azure subscription ID"
 }
 
 variable "location" {
@@ -23,33 +23,21 @@ variable "environment" {
 
 variable "tags" {
   type        = map(string)
-  description = "maps of tags"
+  description = "Map of tags"
   default = {
     "environment" = "development"
-    date = "july-2025"
-    createdby = "terraform"
+    "createdby"   = "terraform"
   }
 }
 
-variable "domain_name" {
-  type        = string
-  description = "Custom domain name for the e-commerce site"
+variable "allowed_ips" {
+  type        = list(string)
+  description = "List of allowed IP addresses for admin access"
+  default     = ["192.168.1.1/32"] # Reemplaza con tus IPs reales
 }
 
-variable "admin_group_name" {
+variable "admin_username" {
   type        = string
-  description = "Name for the admin security group"
-  default     = "Ecommerce-Admins"
-}
-
-variable "user_group_name" {
-  type        = string
-  description = "Name for the user security group"
-  default     = "Ecommerce-Users"
-}
-
-variable "key_vault_sku" {
-  type        = string
-  description = "SKU for Key Vault"
-  default     = "standard"
+  description = "Admin username for resources"
+  default     = "adminuser"
 }

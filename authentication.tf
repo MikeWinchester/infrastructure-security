@@ -39,32 +39,6 @@ resource "azurerm_storage_account" "auth_storage" {
   tags = var.tags
 }
 
-# Container para almacenar configuraciones de usuarios
-resource "azurerm_storage_container" "user_configs" {
-  name                  = "user-configurations"
-  storage_account_name  = azurerm_storage_account.auth_storage.name
-  container_access_type = "private"
-}
-
-# Container para almacenar sesiones activas
-resource "azurerm_storage_container" "user_sessions" {
-  name                  = "user-sessions"
-  storage_account_name  = azurerm_storage_account.auth_storage.name
-  container_access_type = "private"
-}
-
-# Table para almacenar información de usuarios (alternativa a Azure AD)
-resource "azurerm_storage_table" "users" {
-  name                 = "users"
-  storage_account_name = azurerm_storage_account.auth_storage.name
-}
-
-# Table para almacenar roles y permisos
-resource "azurerm_storage_table" "user_roles" {
-  name                 = "userroles"
-  storage_account_name = azurerm_storage_account.auth_storage.name
-}
-
 # Logic App para manejo de autenticación personalizada
 resource "azurerm_logic_app_workflow" "auth_service" {
   name                = "auth-service-${var.project}-${var.environment}"

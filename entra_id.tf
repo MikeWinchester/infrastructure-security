@@ -1,3 +1,4 @@
+/*
 # Azure AD Groups
 resource "azuread_group" "admin" {
   display_name     = var.admin_group_name
@@ -36,3 +37,4 @@ resource "azuread_service_principal" "ecommerce_sp" {
 resource "azuread_service_principal_password" "ecommerce_sp_password" {
   service_principal_id = azuread_service_principal.ecommerce_sp.object_id
 }
+*/

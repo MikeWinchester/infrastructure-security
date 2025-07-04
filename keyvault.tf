@@ -24,7 +24,7 @@ resource "azurerm_key_vault" "main" {
   network_acls {
     default_action = "Deny"
     bypass         = "AzureServices"
-    ip_rules       = var.allowed_ips
+    #ip_rules       = var.allowed_ips
   }
 
   tags = var.tags
